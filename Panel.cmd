@@ -341,11 +341,13 @@ echo	 Select once:
 echo  [0m	1] Enable Wi-Fi Network Adapter 
 echo  	2] Disable Wi-Fi Network Adapter [0m
 echo 	3] Erase History Leaked from Incongito Browser Mode 
+echo 	4] Start Hotspot Network
 
-choice /c 1230 /n /m "  	> Choose a menu option, or press 0 to Exit: "
+choice /c 12340 /n /m "  	> Choose a menu option, or press 0 to Exit: "
 
 
 set _el=%errorlevel%
+if %_el%==4 (cls&goto :spot)
 if %_el%==3 (cls&goto :Flush)
 if %_el%==2 (cls&goto :DeActivate)
 if %_el%==1 (cls&goto :Activate)
@@ -367,6 +369,18 @@ timeout /t 5 & goto:MainMenu
 @ipconfig/flushdns>nul
 echo   -Your Leaked History From Incongito Browser Mode Has Been Erased!
 timeout /t 5 & goto:MainMenu
+
+
+:spot
+set /p id="> Enter SSID:"
+if %id% EQU nul goto:spot
+set /p pass="> Enter PASSWORD:"
+if %id% EQU nul goto:spot
+@>nul
+echo   -Your Leaked History From Incognito Browser Mode Has Been Erased!
+timeout /t 5 & goto:MainMenu
+
+
 
 :E_Admin
 echo %_err%
