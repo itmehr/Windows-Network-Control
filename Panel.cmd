@@ -342,11 +342,13 @@ echo  [0m	1] Enable Wi-Fi Network Adapter
 echo  	2] Disable Wi-Fi Network Adapter [0m
 echo 	3] Erase History Leaked from Incongito Browser Mode 
 echo 	4] Start Hotspot Network
+echo 	5] Open Network Adapters
 
-choice /c 12340 /n /m "  	> Choose a menu option, or press 0 to Exit: "
+choice /c 123450 /n /m "  	> Choose a menu option, or press 0 to Exit: "
 
 
 set _el=%errorlevel%
+if %_el%==5 (cls& ncpa.cpl & goto :MainMenu)
 if %_el%==4 (cls&goto :spot)
 if %_el%==3 (cls&goto :Flush)
 if %_el%==2 (cls&goto :DeActivate)
@@ -375,9 +377,10 @@ timeout /t 5 & goto:MainMenu
 set /p id="> Enter SSID:"
 if %id% EQU nul goto:spot
 set /p pass="> Enter PASSWORD:"
-if %id% EQU nul goto:spot
-@>nul
-echo   -Your Leaked History From Incognito Browser Mode Has Been Erased!
+if %pass% EQU nul goto:spot
+@netsh wlan set hostednetwork ssid="%id%" key="%pass%" >nul
+@netsh wlan start hostednetwork >nul
+echo   -Hotspot "%id%":"pass" Has Been Started!
 timeout /t 5 & goto:MainMenu
 
 
