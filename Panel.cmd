@@ -340,15 +340,23 @@ echo [32m-------------------------------------------------
 echo	 Select once:
 echo  [0m	1] Enable Wi-Fi Network Adapter 
 echo  	2] Disable Wi-Fi Network Adapter [0m
-echo 	3] Erase History Leaked from Incongito Browser Mode 
+echo .
+echo 	3] Erase History Leaked from Incognito Browser Mode 
+echo .
 echo 	4] Start Hotspot Network
-echo 	5] Open Network Adapters
-
-choice /c 123450 /n /m "  	> Choose a menu option, or press 0 to Exit: "
+echo 	5] Stop Hotspot Network
+echo .
+echo 	6] Open Network Adapters
+echo .
+echo 	7] Show Wi-Fi Signal Streng
+echo .
+choice /c 12345670 /n /m "  	> Choose a menu option, or press 0 to Exit: "
 
 
 set _el=%errorlevel%
-if %_el%==5 (cls& ncpa.cpl & goto :MainMenu)
+if %_el%==7 (cls&goto :Signal)
+if %_el%==6 (cls& ncpa.cpl & goto :MainMenu)
+if %_el%==5 (cls&goto :unspot)
 if %_el%==4 (cls&goto :spot)
 if %_el%==3 (cls&goto :Flush)
 if %_el%==2 (cls&goto :DeActivate)
@@ -373,6 +381,13 @@ echo   -Your Leaked History From Incongito Browser Mode Has Been Erased!
 timeout /t 5 & goto:MainMenu
 
 
+:unspot
+@netsh wlan stop hostednetwork >nul
+echo   -Hotspot "%id%":"%pass%" Has Been Stopped!
+timeout /t 5 & goto:MainMenu
+
+
+
 :spot
 set /p id="> Enter SSID:"
 if %id% EQU nul goto:spot
@@ -380,9 +395,18 @@ set /p pass="> Enter PASSWORD:"
 if %pass% EQU nul goto:spot
 @netsh wlan set hostednetwork ssid="%id%" key="%pass%" >nul
 @netsh wlan start hostednetwork >nul
-echo   -Hotspot "%id%":"pass" Has Been Started!
+echo   -Hotspot "%id%":"%pass%" Has Been Started!
 timeout /t 5 & goto:MainMenu
 
+
+:Signal
+@ECHO "> Press Ctrl + C to Cancel;"
+:one
+netsh wlan show interfaces | findstr "Signal"
+timeout 1 >nul | goto :two
+
+:two
+goto :one
 
 
 :E_Admin
