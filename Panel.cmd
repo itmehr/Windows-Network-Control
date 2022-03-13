@@ -348,12 +348,14 @@ echo 	5] Stop Hotspot Network
 echo .
 echo 	6] Open Network Adapters
 echo .
-echo 	7] Show Wi-Fi Signal Streng
+echo 	7] Show Wi-Fi Signal Strength
 echo .
-choice /c 12345670 /n /m "  	> Choose a menu option, or press 0 to Exit: "
+echo 	8] Disable Windows Update (unrecommended)
+choice /c 123456780 /n /m "  	> Choose a menu option, or press 0 to Exit: "
 
 
 set _el=%errorlevel%
+if %_el%==8 (cls&goto :up)
 if %_el%==7 (cls&goto :Signal)
 if %_el%==6 (cls& ncpa.cpl & goto :MainMenu)
 if %_el%==5 (cls&goto :unspot)
@@ -362,6 +364,12 @@ if %_el%==3 (cls&goto :Flush)
 if %_el%==2 (cls&goto :DeActivate)
 if %_el%==1 (cls&goto :Activate)
 goto:eof
+
+:up
+@sc stop wuauserv>nul
+@sc config wuauserv start=auto>nul
+echo   - Windows Update Service has been Disabled! :)
+timeout /t 5 & goto:MainMenu
 
 
 :Activate
