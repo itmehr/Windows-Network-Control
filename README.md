@@ -1,5 +1,6 @@
 # Windows-Network-Control
 a panel for control network
 
+![image](https://user-images.githubusercontent.com/24986586/158042145-7383791d-697e-4d4a-bf9c-542eaee4960f.png)
 
-![image](https://user-images.githubusercontent.com/24986586/150301567-4c30d7e1-694c-42d0-a417-fdf00b425ab1.png)
+
